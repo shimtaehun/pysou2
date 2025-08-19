@@ -54,3 +54,42 @@ print('statistic:%.5f, pvalue:%.5f'%res)
 
 # 해석: 정규성은 부족하지만 t-test와 wilcoxon은 같은 결과를 얻었다. 표본수가 커지면 결과는 달라질 수 있다.
 # 정규성 위배가 있어도 t-test결과는 신뢰 할 수 있다.
+print('-'*30)
+# 실습 3)
+# 여아 신생아 몸무게의 평균 검정 수행 babyboom.csv
+# 여아 신생아의 몸무게는 평균이 2800(g)으로 알려져 왔으나 이보다 더 크다는 주장이 나왔다.
+# 표본으로 여아 18명을 뽑아 체중을 측정하였다고 할 때 새로운 주장이 맞는지 검정해 보자
+# 귀무: 여아 신생아의 몸무게는 평균이 2800(g)이다
+# 대립: 여아 신생아의 몸무게는 평균이 2800(g) 보타 크다.
+data2 = pd.read_csv('https://raw.githubusercontent.com/pykwon/python/refs/heads/master/testdata_utf8/babyboom.csv')
+print(data2.head(3))
+print(data2.describe())
+fdata = data2[data2.gender == 1]
+print(fdata.head(2))
+print(len(fdata))
+print(np.mean(fdata.weight), ' ', np.std(fdata.weight))
+# 3132 vs 2800 둘 사이는 평균에 차이가 있는가?
+
+# 정규성 검정 (하나의 집단일 때는 option)
+print(stats.shapiro(fdata.iloc[:, 2]))  # p값 0.01798 < 0.05 정규성 위배
+# 정규성 시각화
+# 1) histogram으로 확인 
+sns.displot(fdata.weight, kde=True)
+plt.show()
+plt.close()
+
+# 2) Q-Q plot으로 확인
+stats.probplot(fdata.iloc[:, 2], plot=plt)
+plt.show()
+plt.close()
+
+print()
+wilcox_resBaby = wilcoxon(fdata.weight - 2800)   # 평균 2800과 비교
+print('wilcox_res: ', wilcox_resBaby)
+# pvalue: 0.03423 < 0.05 이므로 귀무기각.
+print()
+resBaby = stats.ttest_1samp(fdata.weight, popmean=2800)
+print('statistic:%.5f, pvalue:%.5f'%resBaby)
+# pvalye:0.03927 < 0.0a5 이므로 귀구기각.
+# 즉, 여 신생아의 평균 체중은 2800g보다 증가하였다.
+# 왜?
