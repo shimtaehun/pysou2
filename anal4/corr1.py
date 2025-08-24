@@ -3,9 +3,9 @@
 # 상관계수: 공분산을 표준화. -1 ~ 0 ~ 1, +-1에 근사하면 관계가 강함
 import numpy as np
 # 공분산: 패턴의 방향은 알겠으나 구체적인 크기를 표현은 곤란
-print(np.cov(np.arange(1, 6), np.arange(2,7)))
-print(np.cov(np.arange(10, 60, 10), np.arange(20,70,10)))
-print(np.cov(np.arange(100, 600, 100), np.arange(200, 700, 100)))
+print(np.cov(np.arange(1, 6), np.arange(2,7)))    # 1부터 5까지의 배열과 2부터 6까지의 배열의 공분산 행렬을 계산
+print(np.cov(np.arange(10, 60, 10), np.arange(20,70,10)))   # 10부터 50까지 10씩 증가하는 배열과 20부터 70까지 10씩 증가하는 배열의 공분산 행렬을 계산
+print(np.cov(np.arange(100, 600, 100), np.arange(200, 700, 100)))   # 100부터 500까지 100씩 증가하는 배열과 200부터 700까지 100씩 증가하는 배열의 공분산 행렬
 print(np.cov(np.arange(1, 6), (3,3,3,3,3)))
 print(np.cov(np.arange(1, 6), np.arange(6,1,-1)))
 print('-'*60)
@@ -14,7 +14,7 @@ print('x의 평균: ', np.mean(x))
 print('x의 분산: ', np.var(x))
 y = [6,2,4,6,9,5,1,8,4,5]
 print('y의 평균: ', np.mean(y))
-print('y의 분산: ', np.var(y))
+print('y의 분산: ', np.var(y))  
 
 import matplotlib.pyplot as plt
 # plt.scatter(x, y)

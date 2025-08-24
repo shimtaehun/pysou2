@@ -11,10 +11,12 @@ class MySimpleLinearRegression:
         # ols로 w와 b를 추정
         x_mean = np.mean(x)
         y_mean = np.mean(y)
+
+        # H(x) = Wx + b의 값 구하기
         numerator = np.sum((x - x_mean) * (y - y_mean))
         denominator = np.sum((x - x_mean) ** 2)
-        self.w = numerator / denominator        # 기울기 구하기
-        self.b = y_mean - (self.w * x_mean)     # 절편 구하기
+        self.w = numerator / denominator        # 기울기(W) 구하기
+        self.b = y_mean - (self.w * x_mean)     # 절편(b) 구하기
 
     def predict(self, x:np.ndarray):
         return self.w * x + self.b
