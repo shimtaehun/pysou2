@@ -11,10 +11,10 @@ iris = datasets.load_iris()
 print(iris.keys())
 print(iris.target)
 x = iris['data'][:, [3]]    # petal.length
-# print(x[:3])
+print(x[:3])
 y = (iris['target'] == 2).astype(np.int32)
-# print(y[:3])
-# print(type(y))
+print(y[:3])
+print(type(y))
 
 log_reg = LogisticRegression().fit(x, y)    # solver: lbfgs (siftmax 사용)
 print(log_reg)

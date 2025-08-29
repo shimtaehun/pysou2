@@ -137,7 +137,7 @@ def plot_decisionFunc(X, y, classifier, test_idx=None, resulution=0.02, title=''
     
     # 격자 좌표 생성
     xx, yy = np.meshgrid(np.arange(x1_min, x1_max, resulution), \
-                        np.arange(x2_min, x2_max, resulution))
+                        np.arange(x2_min, x2_max, resulution)) 
     
     # xx, yy를 1차원배열로 만든 후 전치한다. 이어 분류기로 클래스 예측값 Z얻기
     Z = classifier.predict(np.array([xx.ravel(), yy.ravel()]).T)
