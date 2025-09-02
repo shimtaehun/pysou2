@@ -1,41 +1,22 @@
-# 예1. [Kaggle - Marketing Campaign Dataset (Customer Segmentation + Response)]
-# 링크: Marketing Campaign  https://www.kaggle.com/datasets/imakash3011/customer-personality-analysis
-# 분야: 마케팅, CRM, 고객 분석
-# 컬럼: 고객 정보(나이, 소득, 결혼 여부), 구매 이력, 캠페인 응답률 등
-# 가능한 분석:
-#   - 가설검정: 캠페인 참여 여부 vs 고객 연령대 (카이제곱)  :  고객의 연령대는 캠페인 참여에 관련이 없다.
-#   - 고객 세분화   : 고객 세분화라고 하는게 어떻게 세분화를 할지에 대한 기준
-#   - 회귀 분석: 소득이 소비 금액에 미치는 영향 : 소득이 많으면 소비 금액이 많다 
-#   - 시각화: 구매 패턴 히트맵, 분포도
-#    - 캠페인 응답 예측
-# 좀 더 구체적인 작업 요구 사항  -------------------------
-# 1) 연구 주제 (Problem Statement)
-# 단순 “소득 → 소비 영향”을 넘어
-#   → “인구통계학적 특성과 소비 패턴이 캠페인 응답 확률에 어떻게 복합적으로 작용하는가?”
-#   → 즉, 고객 특성(연령, 자녀 수, 소득, 결혼여부 등) + 소비 습관이 응답 여부를 결정하는 구조를 규명한다.
-# 2) 기술통계 확장 (Exploratory Data Analysis)
-# 단순 평균/분포를 넘어서, 소비 패턴 상관관계까지 탐색
-#    예: 연령대별 평균소득 vs 캠페인 참여율 산점도
-# 제품군별 상관행렬(Heatmap) → 어떤 제품군 소비가 함께 발생하는지
-# 이상치(Outlier) 분석: 비정상적으로 높은 소비자 집단이 결과를 왜곡하는지 확인
-# 3) 가설검정 고도화
-# 단순 교차분석(카이제곱) → 다변량 검정으로 확장
-# 예: “연령대 + 자녀 수 조합에 따라 응답률이 달라지는가?” → 로지스틱 회귀 기반 Wald Test
-# 집단 평균 차이 검정
-#   “캠페인 응답자 vs 비응답자”의 평균 소득 차이가 유의한가? → 독립표본 t-검정
-# 소득 분위(Q1–Q4)에 따라 응답률 차이가 있는가? → 일원분산분석(ANOVA)
-# 4) 회귀 분석 
-# 단순 선형회귀 → 다중 회귀 + 상호작용항(interaction terms)
-# 예: 소비 금액 = 소득 + 나이 + (소득×나이) + 자녀 수
-# 특정 연령대에서 소득의 효과가 더 커지는지 파악
-# 응답 여부 예측: 로지스틱 회귀(Logistic Regression)
-# 종속변수: 캠페인 응답(yes/no)
-# 독립변수: 연령, 소득, 자녀 수, 결혼여부, 제품별 소비 금액 등
-# 결과: 어떤 특성이 캠페인 참여 확률을 높이는지 오즈비(Odds Ratio)로 해석
-# 5) 시각화 
-# 소득 분위별 응답률 트렌드 라인
-# 잔차분석 그래프 (회귀 모델 진단: 선형성, 정규성, 등분산성 확인)
-# 6) 기대 효과
-# 정교한 세그먼트 타겟팅 전략: 단순 연령/소득이 아니라 복합 요인을 반영한 고객군 정의
-# 캠페인 투자 최적화: 특정 조건(예: 40대·자녀 없음·소득 상위 30%)에서 응답 확률이 높음 → 집중 마케팅
-# 실제 CRM 적용 가능성: 응답 예측 모델을 기반으로 고객 맞춤형 오퍼 설계
+import numpy as np
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+from scipy.stats import wilcoxon
+from scipy.stats import f_oneway
+
+data = pd.read_csv(f'miniproject\marketing_campaign.csv',sep='\t')
+print(data)
+income = 'Income'
+wine = 'MntWines'
+data['income_group'] = pd.qcut(data[income], q=4, labels=['low', 'mid_low', 'mid_high', 'high'])
+group = data.groupby('income_group')[wine]
+f_statistic, p_value = f_oneway(*group.apply(list))
+print(f"F-statistic (F 통계량): {f_statistic:.4f}")
+print(f"p_value (p_value): {p_value}")
+print(income.summary()) 
+# print('등분산성: ', stats.levene(income, wine).pvalue)
+
+# print('정규성 검정: ', stats.shapiro(data.Income).pvalue)
+# print('정규성 검정: ', stats.shapiro(data.MntWines).pvalue)
