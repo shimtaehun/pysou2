@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer List and Prediction</title>
+</head>
+<body>
+    <h1>Prediction</h1>
+    {% if result is not None %}
+        <h2>Prediction Result: {{ result }}</h2>
+        <a href="/">Predict again</a>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="mntwines">MntWines:</label>
+            <input type="text" id="mntwines" name="mntwines" value="{{ request.POST.mntwines }}"><br><br>
+            <label for="mntfruits">MntFruits:</label>
+            <input type="text" id="mntfruits" name="mntfruits" value="{{ request.POST.mntfruits }}"><br><br>
+            <label for="mntmeatproducts">MntMeatProducts:</label>
+            <input type="text" id="mntmeatproducts" name="mntmeatproducts" value="{{ request.POST.mntmeatproducts }}"><br><br>
+            <label for="mntfishproducts">MntFishProducts:</label>
+            <input type="text" id="mntfishproducts" name="mntfishproducts" value="{{ request.POST.mntfishproducts }}"><br><br>
+            <label for="mntsweetproducts">MntSweetProducts:</label>
+            <input type="text" id="mntsweetproducts" name="mntsweetproducts" value="{{ request.POST.mntsweetproducts }}"><br><br>
+            <label for="mntgoldprods">MntGoldProds:</label>
+            <input type="text" id="mntgoldprods" name="mntgoldprods" value="{{ request.POST.mntgoldprods }}"><br><br>
+            <input type="submit" value="Predict">
+        </form>
+    {% endif %}
+</body>
+</html>
